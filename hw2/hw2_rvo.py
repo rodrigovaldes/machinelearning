@@ -3,6 +3,10 @@
 # Spring 2017
 # HW 2
 
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -422,4 +426,13 @@ print(metrics.classification_report(y_test, predicted))
 scores = cross_val_score(LogisticRegression(), X, y, scoring='accuracy', cv=10)
 print(scores)
 print(scores.mean())
+
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+## PLEASE SEE THE PDF FILE WITH THE OTHER ANSWERS
+
+
+
+
+
 

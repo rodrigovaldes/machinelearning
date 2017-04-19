@@ -1,3 +1,8 @@
+# Rodrigo Valdes Ortiz
+# Machine Learning for Public Policy
+# Spring 2017
+# HW 2
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +19,6 @@ Load the data from a traditional csv file.
 ----------------------------------------------------
 '''
 
-NAME_FILE = "credit-data.csv" # Modify this for new data
 
 def modify_dictionary_of_column_names(long_names, allowed_len = 15):
     '''
@@ -129,6 +133,7 @@ def bar_graph(title, x_locations, x_names, x_ocurrences, name_y, name_file):
 
     return print("Bar graph done")
 
+# Example code to run the function above
 x_locations = [0,1,2,3]
 x_names = ["one", "two", "three", "four"]
 x_ocurrences = [10, 20, 15, 17]
@@ -150,24 +155,6 @@ def plot_histogram(df, name_column, x_label, name_file, y_label = "Frequency"):
 
     return print("Histogram done")
 
-# df = pd.read_csv(NAME_FILE)
-# df.columns = ['PersonID',
-#  'serious_dlq',
-#  'revolving',
-#  'age',
-#  'zipcode',
-#  '30_59_days',
-#  'DebtRatio',
-#  'MonthlyIncome',
-#  'open_credits',
-#  '90_late',
-#  'real_state',
-#  '60_89_days',
-#  'dependents']
-
-# plot_histogram(df, "age", "Ages", "age.png", y_label = "Frequency")
-# plot_histogram(df, "DebtRatio", "Debt Ratio", "debt.png", y_label = "Frequency")
-# plot_histogram(df, "open_credits", "Open Credits", "open_credits.png", y_label = "Frequency")
 
 
 
@@ -334,6 +321,39 @@ def categorical_to_dummy(df, name_column, name_new_column, threshold):
 
     return df
 
+'''
+----------------------------------------------------
+------- LOAD DATA WITH PREVIOUS FUNCTIONS  ---------
+Run files
+----------------------------------------------------
+'''
+NAME_FILE = "credit-data.csv" # Modify this for new data
+
+df = pd.read_csv(NAME_FILE)
+df.columns = ['PersonID',
+ 'serious_dlq',
+ 'revolving',
+ 'age',
+ 'zipcode',
+ '30_59_days',
+ 'DebtRatio',
+ 'MonthlyIncome',
+ 'open_credits',
+ '90_late',
+ 'real_state',
+ '60_89_days',
+ 'dependents']
+
+df = fill_na(df)
+
+plot_histogram(df, "age", "Ages", "age.png", y_label = "Frequency")
+plot_histogram(df, "DebtRatio", "Debt Ratio", "debt.png", y_label = "Frequency")
+plot_histogram(df, "open_credits", "Open Credits", "open_credits.png", y_label = "Frequency")
+
+# Summary stats by relevanrt variable
+
+d_serious = df.groupby(["serious_dlq"]).mean().reset_index()
+
 
 '''
 ----------------------------------------------------
@@ -348,9 +368,10 @@ Build Classifier
 
 # Open credits > 8
 
-df = categorical_to_dummy(df, "open_credits", "CreditsDummy", 8)
+# Exercise with ithe variable
+# df = categorical_to_dummy(df, "open_credits", "CreditsDummy", 8)
 
-y, X = dmatrices('CreditsDummy ~  age + MonthlyIncome + dependents', df, return_type="dataframe")
+y, X = dmatrices('serious_dlq ~  age + MonthlyIncome + dependents', df, return_type="dataframe")
 
 y = np.ravel(y)
 
@@ -359,8 +380,10 @@ model = model.fit(X, y)
 
 '''
 ----------------------------------------------------
-------------------- TASK 5 -------------------------
+------------------- TASK 6 -------------------------
 Evaluate Classifier
+# Many ideas from:
+# ciattion: http://nbviewer.jupyter.org/gist/justmarkham/6d5c061ca5aee67c4316471f8c2ae976
 ----------------------------------------------------
 '''
 # Accuracy
@@ -374,7 +397,6 @@ X.columns
 np.transpose(model.coef_)
 
 # Training ans testing data
-
 # evaluate the model by splitting into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 model2 = LogisticRegression()
@@ -400,26 +422,4 @@ print(metrics.classification_report(y_test, predicted))
 scores = cross_val_score(LogisticRegression(), X, y, scoring='accuracy', cv=10)
 print(scores)
 print(scores.mean())
-
-
-
-
-
-
-# list_columns = ['PersonID',
-#  'serious_dlq',
-#  'revolving',
-#  'age',
-#  'zipcode',
-#  '30_59_days',
-#  'DebtRatio',
-#  'MonthlyIncome',
-#  'open_credits',
-#  '90_late',
-#  'real_state',
-#  '60_89_days',
-#  'dependents']
-
-
-
 

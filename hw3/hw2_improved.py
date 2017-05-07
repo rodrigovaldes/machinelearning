@@ -254,6 +254,18 @@ def make_slices(df, column):
 
     return d_serious
 
+def max_slice(df, column):
+
+    d_serious = df.groupby([column]).max().reset_index()
+
+    return d_serious
+
+def min_slice(df, column):
+
+    d_serious = df.groupby([column]).min().reset_index()
+
+    return d_serious
+
 
 '''
 ----------------------------------------------------
